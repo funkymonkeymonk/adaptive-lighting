@@ -822,20 +822,20 @@ class AdaptiveSwitch(SwitchEntity, RestoreEntity):
             return
         self.turn_on_off_listener.last_service_data[light] = service_data
 
-        async def turn_on(service_data):
-            _LOGGER.debug(
-                "%s: Scheduling 'light.turn_on' with the following 'service_data': %s"
-                " with context.id='%s'",
-                self._name,
-                service_data,
-                context.id,
-            )
-            await self.hass.services.async_call(
-                LIGHT_DOMAIN,
-                SERVICE_TURN_ON,
-                service_data,
-                context=context,
-            )
+    async def turn_on(service_data):
+        _LOGGER.debug(
+            "%s: Scheduling 'light.turn_on' with the following 'service_data': %s"
+            " with context.id='%s'",
+            self._name,
+            service_data,
+            context.id,
+        )
+        await self.hass.services.async_call(
+            LIGHT_DOMAIN,
+            SERVICE_TURN_ON,
+            service_data,
+            context=context,
+        )
 
         if not self._separate_turn_on_commands:
             await turn_on(service_data)
